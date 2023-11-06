@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Product } from '../models/product.model';
 import { CartService } from '../services/cart.service';
+import { Router } from '@angular/router';
+import { ProductService } from '../services/product.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -37,7 +40,12 @@ export class Tab1Page {
     }
   ];
 
-  constructor(private cartService: CartService) {
+  constructor(
+    private cartService: CartService,
+    private router:Router, 
+    private productService:ProductService,
+    private alertController:AlertController,
+    ) {
     this.products.push({
       name: "Aguacate",
       price: 100,
@@ -67,7 +75,7 @@ export class Tab1Page {
       photo: "https://picsum.photos/500/300?random"
     });
     this.productsFounds = this.products;
-
+    this.productsFounds = productService.getProducts();
   }
 
   public getColor(type: string): string {
@@ -79,7 +87,6 @@ export class Tab1Page {
   }
 
   public filterProducts(): void {
-    console.log(this.filter);
     this.productsFounds = this.products.filter(
       item => {
         return this.filter.includes(item.type);
@@ -90,8 +97,40 @@ export class Tab1Page {
   public addToCart(product: Product, i: number) {
     product.photo = product.photo + i;
     this.cartService.addToCart(product);
-    console.log(this.cartService.getCart());
+  }
+  public async removeToCart(i: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirmación',
+      message: '¿Estás seguro de continuar?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log("hola");
+          }
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            this.productService.removedProducts(i);
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
+    this.productsFounds = this.productService.getProducts();
+  }
+  public updateToCart(index:any){
+    localStorage.setItem('indexValue',index);
+    this.router.navigate([`/update-product/`]);
   }
 
+  public openAddPorductPage(){
+    // Llama a la panta de agregar producto
+    this.router.navigate(['/add-product']);
+  }
 
 }

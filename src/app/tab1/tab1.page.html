@@ -1,33 +1,35 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title> Productos </ion-title>
-   
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">  
+<ion-content [fullscreen]="true">
+  <ion-fab vertical="top" horizontal="end" slot="fixed" [edge]="">
+    <ion-fab-button (click)="openAddPorductPage()">
+      <ion-icon name="add"></ion-icon>
+      <ion-buttons slot="start">
+      </ion-buttons>
+    </ion-fab-button>
+  </ion-fab>
   <ion-grid>
     <ion-row>
       <ion-col size="12">
-        <ion-select label="Tipo" 
-        [multiple]="true"
-        interface="popover"
-        label-placement="floating"
-        [(ngModel)]="filter"
-        (ionChange)="filterProducts()"
-        >
-        <ion-select-option value="Abarrotes">
-          Abarrotes
-        </ion-select-option>
-        <ion-select-option value="Frutas y Verduras">
-          Frutas y Verduras
-        </ion-select-option>
-        <ion-select-option value="Limpieza">
-          Limpieza
-        </ion-select-option>
-        <ion-select-option value="Farmacia">
-          Farmacia
-        </ion-select-option>
+        <ion-select label="Tipo" [multiple]="true" interface="popover" label-placement="floating" [(ngModel)]="filter"
+          (ionChange)="filterProducts()">
+          <ion-select-option value="Abarrotes">
+            Abarrotes
+          </ion-select-option>
+          <ion-select-option value="Frutas y Verduras">
+            Frutas y Verduras
+          </ion-select-option>
+          <ion-select-option value="Limpieza">
+            Limpieza
+          </ion-select-option>
+          <ion-select-option value="Farmacia">
+            Farmacia
+          </ion-select-option>
         </ion-select>
       </ion-col>
     </ion-row>
@@ -35,7 +37,7 @@
     <ion-row>
       <ion-col size="6" *ngFor="let product of productsFounds; index as i">
         <ion-card>
-          <img [src]="product.photo+i"/>
+          <img [src]="product.photo+i" />
           <ion-card-header>
             <ion-card-title>
               {{product.name}}
@@ -46,9 +48,23 @@
           <ion-card-content>
             {{product.description}}
           </ion-card-content>
-          <ion-button expand="block" (click)="addToCart(product, i)">
-            <ion-icon name="cart-outline" ></ion-icon>
-          </ion-button>
+          <ion-row>
+            <ion-col size="3">
+              <ion-button expand="block" (click)="addToCart(product, i)">
+                <ion-icon name="cart-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col size="3">
+              <ion-button (click)="removeToCart(i)" color="danger" expand="block" (click)="addToCart(product, i)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col size="3">
+              <ion-button (click)="updateToCart(i)" color="success" expand="block" (click)="addToCart(product, i)">
+                <ion-icon name="refresh-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
         </ion-card>
       </ion-col>
     </ion-row>
