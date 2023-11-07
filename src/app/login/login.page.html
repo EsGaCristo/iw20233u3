@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="ion-padding">
+    <ion-card-header>
+      <ion-card-title>Login</ion-card-title>
+    </ion-card-header>
+    <form [formGroup]="formularioLogin" action="">
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="nombre" type="text"></ion-input>
+        <ion-icon slot="start" name="person"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+        <ion-icon slot="start" name="lock-closed"></ion-icon>
+      </ion-item>
+    </form>
+    <br>
+    <ion-button (click)="prueba()" expand="block" fill="clear" shape="round">
+      Ingresar
+    </ion-button>
+  </ion-card>
+  <div>
+    <ion-fab vertical="bottom" horizontal="end" slot="margin-bottom:30px">
+      <ion-button >
+        <ion-icon name="chevron-forward"></ion-icon>
+      </ion-button>
+    </ion-fab>
+  </div>
+</ion-content>
